@@ -1,6 +1,5 @@
 // C++ File for main
 
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -11,6 +10,9 @@
 typedef struct complex_s {
 	float real;
 	float imag;
+   complex_s(): real( 0.f ), imag( 0.f ) {}
+   complex_s( float new_real, float new_imag ):
+      real( new_real ), imag( new_imag ) {}
 	void operator=(const complex_s& other) {
 		real = other.real;
 		imag = other.imag;
@@ -40,11 +42,12 @@ inline void delay_vals( std::vector<complex_t>& dvals, const std::vector<complex
 	auto skip_it = dvals.begin();
 	std:advance( skip_it, delta );
 	
-	std::for_each( dvals.begin(), skip_it, []( complex_t& val ) { 
-		val.real = 0.f;
-		val.imag = 0.f;
-		}
-	);
+	//std::for_each( dvals.begin(), skip_it, []( complex_t& val ) { 
+		//val.real = 0.f;
+		//val.imag = 0.f;
+		//}
+	//);
+   std::fill( dvals.begin(), skip_it, complex_t{0.f,0.f} );
 	std::copy( vals.begin(), vals.end(), skip_it );
 	
 }
@@ -128,10 +131,13 @@ int main(){
 	
 	gen_complexes( vals, num_vals );
 	
-	delay_vals_insert( dvals2, vals, delta, debug );
-	
+	delay_vals( dvals, vals, delta, debug );
 	print_complexes( "Vals = ", vals );
-	print_complexes( "Delayed Vals (insert) = ", dvals2 );
+	print_complexes( "Delayed Vals (set zero then skip to copy) = ", dvals );
+
+	delay_vals_insert( dvals2, vals, delta, debug );
+	print_complexes( "Vals = ", vals );
+	print_complexes( "Delayed Vals (insert zeros) = ", dvals2 );
     
    uchar avals[num_vals * sizeof(complex_t)];
    uchar advals[num_dvals * sizeof(complex_t)];
