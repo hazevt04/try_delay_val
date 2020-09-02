@@ -42,11 +42,6 @@ inline void delay_vals( std::vector<complex_t>& dvals, const std::vector<complex
 	auto skip_it = dvals.begin();
 	std:advance( skip_it, delta );
 	
-	//std::for_each( dvals.begin(), skip_it, []( complex_t& val ) { 
-		//val.real = 0.f;
-		//val.imag = 0.f;
-		//}
-	//);
    std::fill( dvals.begin(), skip_it, complex_t{0.f,0.f} );
 	std::copy( vals.begin(), vals.end(), skip_it );
 	
